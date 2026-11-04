@@ -1,4 +1,5 @@
 # Fresh Teacher import
+- [ ] Remove verified unused pages and redundant code; preserve active navigation, document flows, appearance, and original linked addresses.
 - [x] Repair shelf resource dropdown switching and blocked taps while preserving source styling; verified selection/dismissal and repeated phone/desktop interactions across all class destinations.
 - [x] Repair persistent dropdowns and single-tap switching without appearance changes; verify sibling/nested switching, current-page selection, and repeated phone/desktop interactions.
 - [x] Repair missing GitHub Pages logo and images: export all 58 pointer-backed originals into the deployment at their referenced URLs; validated full export, regression tests, and published-page image rendering using the exported files. Live update awaits the next GitHub deployment.
