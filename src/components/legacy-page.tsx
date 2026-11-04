@@ -36,6 +36,8 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
     const dismiss = (event: PointerEvent) => {
       const target = event.target;
       const group = dropdownTrigger.current?.parentElement;
+      // Switching is handled atomically by click; do not move the pressed target mid-tap.
+      if (target instanceof window.Element && target.closest('.legacy-dropdown-trigger')) return;
       if (!(target instanceof Node) || !group?.contains(target)) setDropdown(null);
     };
     document.addEventListener('pointerdown', dismiss, true);
