@@ -25,7 +25,10 @@ class AssetExportTests(unittest.TestCase):
             result = export_assets.export_asset(output, "https://media.example", self.asset)
             self.assertEqual(result, output / "__l5e/assets-v1/logo-id/logo.png")
             self.assertEqual(result.read_bytes(), b"png")
-            request.assert_called_once_with("https://media.example/__l5e/assets-v1/logo-id/logo.png", timeout=60)
+            request.assert_called_once()
+            self.assertEqual(request.call_args.args[0].full_url, "https://media.example/__l5e/assets-v1/logo-id/logo.png")
+            self.assertIn("Mozilla/5.0", request.call_args.args[0].get_header("User-agent"))
+            self.assertEqual(request.call_args.kwargs["timeout"], 60)
 
     def test_html_error_pages_are_not_exported_as_images(self):
         def response(*args, **kwargs):

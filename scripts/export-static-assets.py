@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import time
 from urllib.parse import quote, unquote, urlsplit
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -33,7 +33,9 @@ def export_asset(output: Path, origin: str, asset: dict) -> Path:
     last_error = None
     for attempt in range(3):
         try:
-            with urlopen(origin.rstrip("/") + quote(asset["url"], safe="/%"), timeout=60) as response:
+            # The asset service blocks the default urllib user agent.
+            request = Request(origin.rstrip("/") + quote(asset["url"], safe="/%"), headers={"User-Agent": "Mozilla/5.0 (Static media export)"})
+            with urlopen(request, timeout=60) as response:
                 data = response.read()
                 content_type = response.headers.get_content_type()
             if len(data) != asset["size"] or content_type != asset["content_type"]:
