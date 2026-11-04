@@ -1,5 +1,5 @@
 # Fresh Teacher import
-- [ ] Repair shelf resource dropdown switching and blocked taps without changing appearance; verify selection, dismissal and phone/desktop interactions.
+- [x] Repair shelf resource dropdown switching and blocked taps while preserving source styling; verified selection/dismissal and repeated phone/desktop interactions across all class destinations.
 - [x] Repair persistent dropdowns and single-tap switching without appearance changes; verify sibling/nested switching, current-page selection, and repeated phone/desktop interactions.
 - [x] Repair missing GitHub Pages logo and images: export all 58 pointer-backed originals into the deployment at their referenced URLs; validated full export, regression tests, and published-page image rendering using the exported files. Live update awaits the next GitHub deployment.
 - [x] Remove obsolete workflow conflict and update GitHub Pages runner setup; expose actual static build failures in run summaries and annotations.

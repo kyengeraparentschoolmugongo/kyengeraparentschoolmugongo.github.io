@@ -12,9 +12,22 @@ describe('Shelf resource dropdown interactions', () => {
   it('replaces each previous resource menu on a single click', () => {
     render(<LegacyPage data={data} fragments={fragments} />);
     for (const label of [...labels, ...labels]) {
-      fireEvent.click(screen.getByRole('button', { name: label }));
+      const trigger = screen.getByRole('button', { name: label });
+      fireEvent.pointerDown(trigger);
+      fireEvent.click(trigger);
       for (const other of labels) expect(screen.getByRole('button', { name: other })).toHaveAttribute('aria-expanded', String(other === label));
     }
+  });
+  it('does not collapse and move a sibling between pointer press and click', () => {
+    render(<LegacyPage data={data} fragments={fragments} />);
+    const notes = screen.getByRole('button', { name: labels[0] });
+    const papers = screen.getByRole('button', { name: labels[1] });
+    fireEvent.click(notes);
+    fireEvent.pointerDown(papers);
+    expect(notes).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.click(papers);
+    expect(notes).toHaveAttribute('aria-expanded', 'false');
+    expect(papers).toHaveAttribute('aria-expanded', 'true');
   });
   it('closes on an outside pointer press and reopens on the first click', () => {
     render(<LegacyPage data={data} fragments={fragments} />);
