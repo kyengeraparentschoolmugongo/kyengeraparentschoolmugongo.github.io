@@ -12,7 +12,7 @@
 .legacy-page .legacy-dropdown-closed { display: none !important; }
 /* Reserve space for open lists in stacked menus so neither links nor triggers overlap. */
 @media (max-width: 767px) {
-  .legacy-page .necta1 .dropdown-menu.legacy-panel-open { position: relative; float: none; top: auto; left: auto; }
+  .legacy-page .necta1 .dropdown-menu.legacy-panel-open { position: relative; float: none; clear: both; top: auto; left: auto; }
 }
 .legacy-page .legacy-chat-open { display: block !important; transform: scale(1) !important; visibility: visible !important; }
 .legacy-page .legacy-chat-closed { display: none !important; }
