@@ -94,6 +94,13 @@ jobs:
           touch site/.nojekyll
           echo "Deploying $(find site -name '*.html' | wc -l) pages from $src"
 
+      # JSON pointers alone are not media files. Export originals at their exact
+      # URLs, including CSS fonts, reader artwork/audio, the logo and profile photo.
+      - name: Include original images, fonts and audio
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_export_static_assets.py'
+          python3 scripts/export-static-assets.py --output site --origin https://id-preview--342235fc-7697-47a1-839a-2aff77b74b14.lovable.app
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
