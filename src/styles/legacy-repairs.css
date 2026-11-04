@@ -9,6 +9,13 @@
 .legacy-page .button { display: flex; flex-wrap: wrap; gap: 0; }
 .legacy-page .legacy-control.btn { border-radius: .25rem; }
 .legacy-page .legacy-panel-open { display: block !important; visibility: visible !important; }
+.legacy-page .legacy-panel-closed { display: none !important; }
+.legacy-page .legacy-resource-trigger { min-height: 44px; white-space: normal; touch-action: manipulation; }
+.legacy-page [data-resource-panel] { width: max-content; min-width: min(240px, calc(100vw - 56px)); max-width: min(360px, calc(100vw - 56px)); max-height: 50dvh; overflow-y: auto; overscroll-behavior: contain; animation-duration: 180ms; }
+.legacy-page [data-resource-panel] > li > a { min-height: 44px; display: flex; align-items: center; white-space: normal; overflow-wrap: anywhere; text-align: left; }
+.legacy-page #africavotes-chat { z-index: 1101; max-height: calc(100dvh - 110px); overflow-y: auto; }
+.legacy-page .africaVotesChat { z-index: 1100; }
+.legacy-page .close-chat { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; top: 0; right: 0; }
 .legacy-page .legacy-chat-open { display: block !important; transform: scale(1) !important; visibility: visible !important; }
 .legacy-page .legacy-chat-closed { display: none !important; }
 .legacy-page .spinner { display: none; }
@@ -29,6 +36,9 @@
 .legacy-page .legacy-sidebar-closed { display: none !important; }
 body:has(.legacy-page.legacy-sidebar-hidden) #page-wrapper { margin-left: 0 !important; }
 @media (max-width: 575px) {
+  .legacy-page .btn-group:has(> [data-resource-trigger]) { display: block; width: 100%; margin-right: 0; }
+  .legacy-page [data-resource-trigger] { width: 100%; }
+  .legacy-page [data-resource-panel] { position: static; float: none; width: 100%; max-width: 100%; max-height: 45dvh; }
   .legacy-page .navbar-brand { white-space: normal; }
   .legacy-page .navbar-brand-title { font-size: 16px; }
   .legacy-page #africavotes-chat { max-width: calc(100vw - 24px); right: 12px; }
