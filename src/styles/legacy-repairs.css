@@ -10,8 +10,10 @@
 .legacy-page .legacy-control.btn { border-radius: .25rem; }
 .legacy-page .legacy-panel-open { display: block !important; visibility: visible !important; }
 .legacy-page .legacy-dropdown-closed { display: none !important; }
-/* Keep sibling triggers tappable when the captured floating lists overlap them. */
-.legacy-page .necta1 .legacy-dropdown-trigger { position: relative; z-index: 1001; }
+/* Reserve space for open lists in stacked menus so neither links nor triggers overlap. */
+@media (max-width: 767px) {
+  .legacy-page .necta1 .dropdown-menu.legacy-panel-open { position: relative; float: none; }
+}
 .legacy-page .legacy-chat-open { display: block !important; transform: scale(1) !important; visibility: visible !important; }
 .legacy-page .legacy-chat-closed { display: none !important; }
 .legacy-page .spinner { display: none; }
