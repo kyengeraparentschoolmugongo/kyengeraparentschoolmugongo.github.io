@@ -25,7 +25,7 @@ describe('early tap queue', () => {
     vi.useFakeTimers();
     installEarlyTapQueue();
     document.body.innerHTML = '<button data-toggle="dropdown">A</button><button data-toggle="dropdown">B</button>';
-    const [first, second] = Array.from(document.querySelectorAll('button'));
+    const [first, second] = Array.from(document.querySelectorAll('button')) as [HTMLButtonElement, HTMLButtonElement];
     first.click();
     second.click();
     const a = vi.fn(); const b = vi.fn();
