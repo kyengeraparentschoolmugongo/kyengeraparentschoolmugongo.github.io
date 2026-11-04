@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Word/PowerPoint/Excel -> PDF so every document gets thumbnails,
+      # the flipbook and vertical reading. Originals stay downloadable.
+      - name: Install LibreOffice
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libreoffice-writer libreoffice-impress libreoffice-calc fonts-crosextra-carlito fonts-crosextra-caladea fonts-liberation
+
+      - name: Convert documents to PDF
+        run: python3 scripts/convert-documents.py
+
+      - name: Save converted PDFs to the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A public src/data/converted-documents.json
+          git diff --cached --quiet || (git commit -m "Convert documents to PDF [skip ci]" && git push)
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build static site
+        run: bun run build
+
+      - name: Prepare static output
+        run: |
+          # SPA fallback: GitHub Pages serves 404.html for unknown paths
+          # (e.g. /doc/<slug> deep links); the React router takes over.
+          cp dist/client/index.html dist/client/404.html
+          # Skip Jekyll processing so all files deploy as-is.
+          touch dist/client/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/client
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

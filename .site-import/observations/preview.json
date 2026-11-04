@@ -1,0 +1,32 @@
+[
+  {
+    "route": "/",
+    "viewport": {
+      "width": 1280,
+      "height": 1800
+    },
+    "door": "passed",
+    "shelves": "4 visible after wheel input",
+    "nestedMenu": "passed",
+    "chat": "passed; outgoing WhatsApp URL verified without submitting",
+    "navPanels": "passed",
+    "images": [],
+    "errors": [],
+    "screenshots": "/tmp/browser/fresh-preview"
+  },
+  {
+    "route": "/",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "door": "passed",
+    "shelves": "4 visible after wheel input",
+    "nestedMenu": "passed",
+    "chat": "passed; outgoing WhatsApp URL verified without submitting",
+    "navPanels": "passed",
+    "images": [],
+    "errors": [],
+    "screenshots": "/tmp/browser/fresh-preview"
+  }
+]

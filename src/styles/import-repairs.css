@@ -1,0 +1,30 @@
+/* Focused restoration of observed source states; original CSS remains authoritative. */
+.leftcurtain, .rightcurtain { transition: width 2s ease; z-index: 2000; cursor: pointer; }
+.leftcurtain.door-open, .rightcurtain.door-open { width: 1px; pointer-events: none; }
+.rope { transition: top 350ms ease; z-index: 2001; }
+.rope.door-open { top: -171%; pointer-events: none; }
+a.africaVotesChat { z-index: 2002; }
+#africavotes-chat { z-index: 2003; }
+.fresh-panel-open { display: block; visibility: visible; }
+.sidebar .collapse { visibility: visible; }
+.sidebar { top: 80px; padding-top: 0; height: calc(100vh - 80px); }
+.sidebar .user-profile { display: none; }
+.sidebar .slimScrollDiv { height: 100% !important; }
+.sidebar.fresh-sidebar-closed { width: 0; overflow: hidden; }
+.sidebar.fresh-sidebar-open { width: 240px; }
+.sidebar.fresh-sidebar-open .hide-menu { display: inline; }
+.sidebar .slimscrollsidebar { overflow-y: auto !important; }
+.sidebar .slimScrollBar { display: none !important; }
+.navbar-top-links > li > a { color: var(--site-import-primary-foreground); }
+.navbar .dropdown-menu { max-width: calc(100vw - 40px); }
+.dropdown-user { overflow-wrap: anywhere; }
+.container .covers { max-width: 750px; margin-inline: 0; }
+.container .bookshelf { text-align: left; }
+.container .shelf-img { width: 750px; }
+@media (min-width: 768px) {
+  .library-homepage .container { margin-left: 0; width: 100%; max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leftcurtain, .rightcurtain, .rope { transition: none; }
+  .animated, .heartbit, .heartbeat { animation: none; }
+}
