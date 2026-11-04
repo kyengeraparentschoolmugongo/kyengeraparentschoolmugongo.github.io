@@ -14,6 +14,8 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
   const [greeting, setGreeting] = useState('');
   const [year, setYear] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [dropdown, setDropdown] = useState<string | null>(null);
+  const dropdownTrigger = useRef<HTMLElement>(null);
   const [sidebar, setSidebar] = useState(true);
   const [mobileSidebar, setMobileSidebar] = useState(false);
   const [door, setDoor] = useState(false);
@@ -24,14 +26,34 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
   useEffect(() => {
     setGreeting(legacyGreeting(new Date().getHours()));
     setYear(String(new Date().getFullYear()));
-    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') { setChat(false); setExpanded(new Set()); } };
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') { setChat(false); setExpanded(new Set()); setDropdown(null); dropdownTrigger.current?.focus(); } };
     document.addEventListener('keydown', escape);
     return () => document.removeEventListener('keydown', escape);
   }, []);
 
+  useEffect(() => {
+    if (dropdown === null) return;
+    const dismiss = (event: PointerEvent) => {
+      const target = event.target;
+      const group = dropdownTrigger.current?.parentElement;
+      if (!(target instanceof Node) || !group?.contains(target)) setDropdown(null);
+    };
+    document.addEventListener('pointerdown', dismiss, true);
+    return () => document.removeEventListener('pointerdown', dismiss, true);
+  }, [dropdown]);
+
   const source = fragments[data.template] ?? '';
   const nodeText = (node: DOMNode): string => 'data' in node ? node.data : 'children' in node ? (node.children as DOMNode[]).map(nodeText).join(' ') : '';
   const groupKey = (node: Element) => nodeText(node).trim();
+  const dropdownKeys = new WeakMap<Element, string>();
+  let dropdownIndex = 0;
+  const dropdownKey = (node: Element) => {
+    const existing = dropdownKeys.get(node);
+    if (existing !== undefined) return existing;
+    const key = `dropdown-${dropdownIndex++}`;
+    dropdownKeys.set(node, key);
+    return key;
+  };
   const toggle = (key: string) => setExpanded(current => { const next = new Set(current); if (next.has(key)) next.delete(key); else next.add(key); return next; });
   const view = async (element: HTMLElement, item: ResourceRecord) => {
     try {
@@ -73,7 +95,17 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
       if (!nodeText(node).toLowerCase().includes(query.toLowerCase())) return <></>;
       return <div {...props}>{children(node)}</div>;
     }
-    const isToggle = node.attribs['data-toggle'] === 'dropdown' || (node.name === 'a' && node.attribs['href'] === '#' && node.parent instanceof Element && node.parent.children.some(child => child instanceof Element && ['ul', 'div'].includes(child.name)));
+    if (node.attribs['data-toggle'] === 'dropdown' && node.parent instanceof Element) {
+      const key = dropdownKey(node.parent);
+      const activate = (element: HTMLElement) => { dropdownTrigger.current = element; setDropdown(current => current === key ? null : key); };
+      if (node.name === 'button') return <Button {...props} type="button" variant="source" size="source" className={`${classes} legacy-control legacy-dropdown-trigger`} aria-expanded={dropdown === key} onClick={event => activate(event.currentTarget)}>{children(node)}</Button>;
+      return <Button asChild variant="source" size="source"><a {...props} className={`${classes} legacy-control legacy-dropdown-trigger`} href="#" role="button" aria-expanded={dropdown === key} onClick={event => { event.preventDefault(); activate(event.currentTarget); }} onKeyDown={event => { if (event.key === ' ') { event.preventDefault(); activate(event.currentTarget); } }}>{children(node)}</a></Button>;
+    }
+    if (classes.split(' ').includes('dropdown-menu') && node.parent instanceof Element) {
+      const opened = dropdown === dropdownKey(node.parent);
+      return <ul {...props} hidden={!opened} className={`${classes} ${opened ? 'legacy-panel-open' : 'legacy-dropdown-closed'}`} onClick={event => { if (event.target instanceof Element && event.target.closest('a[href]')) setDropdown(null); }}>{children(node)}</ul>;
+    }
+    const isToggle = node.name === 'a' && node.attribs['href'] === '#' && node.parent instanceof Element && node.parent.children.some(child => child instanceof Element && ['ul', 'div'].includes(child.name));
     if (isToggle) {
       const key = node.parent instanceof Element ? groupKey(node.parent) : nodeText(node);
       return <Button asChild variant="source" size="source" className={`${classes} legacy-control`}><a {...props} href="#" role="button" aria-expanded={expanded.has(key)} onClick={event => { event.preventDefault(); toggle(key); }}>{children(node)}</a></Button>;
