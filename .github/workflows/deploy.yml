@@ -82,15 +82,21 @@ jobs:
 
       - name: Prepare static output
         run: |
+          # Outside Lovable the build writes to .output/public; inside it uses dist/client.
+          if [ -f .output/public/index.html ]; then src=.output/public
+          elif [ -f dist/client/index.html ]; then src=dist/client
+          else echo "::error::No built site found (.output/public or dist/client)"; exit 1; fi
+          rm -rf site && cp -r "$src" site
           # SPA fallback: GitHub Pages serves 404.html for unknown paths
           # (e.g. /doc/<slug> deep links); the React router takes over.
-          cp dist/client/index.html dist/client/404.html
+          cp site/index.html site/404.html
           # Skip Jekyll processing so all files deploy as-is.
-          touch dist/client/.nojekyll
+          touch site/.nojekyll
+          echo "Deploying $(find site -name '*.html' | wc -l) pages from $src"
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/client
+          path: site
 
   deploy:
     needs: build
