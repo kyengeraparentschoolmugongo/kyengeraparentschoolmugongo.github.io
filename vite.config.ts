@@ -22,11 +22,6 @@ for (const manifestPath of [
 }
 
 export default defineConfig({
-  // Outside Lovable, nitro defaults to .output/public; pin the same dist/client
-  // folder the Lovable build uses so the GitHub Pages workflow finds the site.
-  nitro: {
-    output: { dir: "dist", serverDir: "dist/server", publicDir: "dist/client" },
-  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
