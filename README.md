@@ -26,6 +26,17 @@ Run `bun run test` to validate document references, original addresses, layouts 
 
 ## Project editor
 
+## GitHub Pages deployment
+
+Only `.github/workflows/deploy.yml` should publish this site; do not restore the obsolete `static.yml` workflow.
+
+1. In the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
+2. Once the updated workflow has synced from Lovable, open **Actions → Deploy to GitHub Pages → Run workflow**, select `main`, and run it. A push to `main` also starts it automatically.
+3. If the build fails, open the run's **Summary**. The **Static site build failed** section includes the final 100 lines of the build log; the annotations also include the final error output. A downloadable `static-build-log` artifact is available on failure.
+4. Only after both jobs succeed should the deployment's URL be considered live. A project-repository URL includes the repository name; this imported site's root-relative navigation and viewer assets still require subdirectory compatibility verification. Renaming to an account Pages repository or using a root-hosted custom domain avoids that prefix, but is an owner decision, not an automatic change.
+
+The workflow pins Node.js 22 and Ubuntu 24.04, configures Pages, converts project-local office documents, and uploads `dist/client`. GitHub account settings and deployment cannot be changed from this project's local editor.
+
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
