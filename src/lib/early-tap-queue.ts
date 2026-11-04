@@ -37,7 +37,7 @@ export function installEarlyTapQueue() {
     var control = origin.closest(SELECTOR);
     if (!control || ready(control)) return;
     event.preventDefault();
-    event.stopPropagation();
+    event.stopImmediatePropagation();
     var waiting = pending !== null;
     // Only the latest tap counts, so repeated taps cannot open and then close a menu.
     pending = { el: control, index: Array.prototype.indexOf.call(document.querySelectorAll(SELECTOR), control), text: control.textContent || '', started: Date.now() };
