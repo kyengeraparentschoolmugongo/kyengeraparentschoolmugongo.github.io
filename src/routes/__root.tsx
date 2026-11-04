@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LibraryShell } from '@/components/library-shell';
 import { Toaster } from '@/components/ui/sonner';
 import { NavigationLoader } from '@/components/logo-loader';
+import { earlyTapQueueScript } from '@/lib/early-tap-queue';
 
 function NotFoundComponent() {
   return (
@@ -119,6 +120,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" {...importedDocument?.html}>
       <head>
         <style href="site-import-inline" precedence="imported-inline">{"@layer imported-inline;"}</style>
+        <script dangerouslySetInnerHTML={{ __html: earlyTapQueueScript }} />
         <HeadContent />
       </head>
       <body {...importedDocument?.body}>
