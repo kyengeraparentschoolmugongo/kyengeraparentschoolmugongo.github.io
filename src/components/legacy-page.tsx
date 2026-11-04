@@ -103,7 +103,7 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
     }
     if (classes.split(' ').includes('dropdown-menu') && node.parent instanceof Element) {
       const opened = dropdown === dropdownKey(node.parent);
-      return <ul {...props} hidden={!opened} className={`${classes} ${opened ? 'legacy-panel-open' : 'legacy-dropdown-closed'}`} onClick={event => { if (event.target instanceof Element && event.target.closest('a[href]')) setDropdown(null); }}>{children(node)}</ul>;
+      return <ul {...props} hidden={!opened} className={`${classes} ${opened ? 'legacy-panel-open' : 'legacy-dropdown-closed'}`} onClick={event => { if (event.target instanceof window.Element && event.target.closest('a[href]')) setDropdown(null); }}>{children(node)}</ul>;
     }
     const isToggle = node.name === 'a' && node.attribs['href'] === '#' && node.parent instanceof Element && node.parent.children.some(child => child instanceof Element && ['ul', 'div'].includes(child.name));
     if (isToggle) {
