@@ -27,6 +27,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
     pages: prerenderPaths.map((path) => ({ path })),
-    prerender: { enabled: true, autoStaticPathsDiscovery: false },
+    // crawlLinks off: outside Lovable it defaults on and follows links to
+    // files that aren't in the project (e.g. "/Fresh App.apk"), failing the build.
+    prerender: { enabled: true, autoStaticPathsDiscovery: false, crawlLinks: false },
   },
 });
