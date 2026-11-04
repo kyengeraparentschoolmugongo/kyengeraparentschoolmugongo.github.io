@@ -1,4 +1,5 @@
 # Fresh Teacher import
+- [ ] Repair missing GitHub Pages logo and images; verify source assets are included in the static deployment.
 - [x] Remove obsolete workflow conflict and update GitHub Pages runner setup; expose actual static build failures in run summaries and annotations.
 - [ ] Complete GitHub Pages deployment — blocked until the next GitHub run exposes the actual build error; repository-subdirectory asset/navigation compatibility also needs validation before claiming the site is live.
 - [x] Keep only flipping and continuous vertical reading, with catalog-matching flips/sound; verified both modes on desktop and phone.
