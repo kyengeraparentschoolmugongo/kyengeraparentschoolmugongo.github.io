@@ -1,7 +1,7 @@
 # Fresh Teacher import
-- [ ] Repair missing GitHub Pages logo and images; verify source assets are included in the static deployment.
+- [x] Repair missing GitHub Pages logo and images: export all 58 pointer-backed originals into the deployment at their referenced URLs; validated full export, regression tests, and published-page image rendering using the exported files. Live update awaits the next GitHub deployment.
 - [x] Remove obsolete workflow conflict and update GitHub Pages runner setup; expose actual static build failures in run summaries and annotations.
-- [ ] Complete GitHub Pages deployment — blocked until the next GitHub run exposes the actual build error; repository-subdirectory asset/navigation compatibility also needs validation before claiming the site is live.
+- [ ] Deploy the repaired image export to GitHub Pages — awaiting the owner's next workflow run; the root-domain site is live but its current deployment lacks pointer-backed media.
 - [x] Keep only flipping and continuous vertical reading, with catalog-matching flips/sound; verified both modes on desktop and phone.
 - [x] Ensure spinners never delay content or block interaction, and skip them on instant loads; verified timing tests, PDF opening, and desktop/phone browsing.
 - [x] Add matching logo loading indicators for thumbnails and page navigation; verified on desktop and phone.
@@ -12,7 +12,7 @@
 - [x] Add clean titles, metadata filters, sharing, clear search, compact mobile cards, and jumpable pagination.
 - [x] Add dedicated document pages with metadata, original viewer/downloads, and related documents.
 - [x] Verify improved discovery and document flows with tests and desktop/phone checks.
-- [ ] Add a public-domain document sitemap — blocked until the site has a published public URL.
+- [ ] Add a public-domain document sitemap — deferred; outside the current image-repair request.
 - [x] Static export for GitHub Pages: prerendered homepage + all 648 original .html URLs (real 200s for Google/bookmarks), 404.html SPA fallback for /doc/* deep links, deploy workflow in .github/workflows/deploy.yml; verified 649 pages prerender and all tests pass. Pending: user pushes to GitHub and sets Pages source to "GitHub Actions".
 - [x] Share a consistent homepage-style top bar and class navigation across all pages.
 - [x] Verify navigation, page content, and door behavior on desktop and phone.
