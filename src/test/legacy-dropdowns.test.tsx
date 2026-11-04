@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { LegacyPage } from '@/components/legacy-page';
 import type { LegacyPageData } from '@/lib/legacy-pages';
 
-const labels = ['LESSON NOTES', 'PAST PAPERS', 'SCHEMES OF WORK', 'HOLIDAY PACKAGES'];
+const labels = ['LESSON NOTES', 'PAST PAPERS', 'SCHEMES OF WORK', 'HOLIDAY PACKAGES'] as const;
 const data: LegacyPageData = { title: 'Class resources', description: '', template: 'menu', styles: 'css', items: [], mode: 'static', missingData: null, links: [] };
 const fragments = { css: '', menu: `<div class="necta1">${labels.map((label, index) => `<div class="btn-group"><button class="btn dropdown-toggle" data-toggle="dropdown" type="button">${label}</button><ul class="dropdown-menu" role="menu"><li><a href="/resource${index}.html">Resource ${index}</a></li></ul></div>`).join('')}</div>` };
 
