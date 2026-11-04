@@ -1,5 +1,5 @@
 # Fresh Teacher import
-- [ ] Repair class resource dropdowns: reliable single-click opening, exclusive menus, outside/keyboard dismissal, phone sizing and chat interaction; verify shelf-to-document navigation.
+- [x] Repair class resource dropdowns: single-click native buttons, exclusive menus, outside/focus/Escape dismissal, keyboard navigation, phone sizing and accessible chat; 13 regression checks passed and shelf-to-reading-catalog flow verified on phone/desktop plus Baby, P7 and S1 menus.
 - [x] Repair missing GitHub Pages logo and images: export all 58 pointer-backed originals into the deployment at their referenced URLs; validated full export, regression tests, and published-page image rendering using the exported files. Live update awaits the next GitHub deployment.
 - [x] Remove obsolete workflow conflict and update GitHub Pages runner setup; expose actual static build failures in run summaries and annotations.
 - [ ] Deploy the repaired image export to GitHub Pages — awaiting the owner's next workflow run; the root-domain site is live but its current deployment lacks pointer-backed media.
