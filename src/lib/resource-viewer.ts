@@ -1,4 +1,5 @@
 import type { ResourceRecord } from './resources';
+import { convertedPdfUrl } from './converted-documents';
 import media from '@/data/resource-media.json';
 
 let loading: Promise<void> | undefined;
