@@ -42,6 +42,7 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
     const dismiss = (event: Event) => {
       const target = event.target;
       if (!(target instanceof Node)) return;
+      if (target instanceof HTMLElement && target.closest('[data-resource-trigger]')) return;
       const panel = root.current?.querySelector('[data-resource-panel].legacy-panel-open');
       if (!panel?.parentElement?.contains(target)) setDropdown(null);
     };
@@ -61,10 +62,10 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
   const nodeText = (node: DOMNode): string => 'data' in node ? node.data : 'children' in node ? (node.children as DOMNode[]).map(nodeText).join(' ') : '';
   const groupKey = (node: Element): string => {
     const path: number[] = [];
-    let current: DOMNode | null = node;
+    let current: Element | null = node;
     while (current?.parent) {
       path.unshift(current.parent.children.indexOf(current));
-      current = current.parent;
+      current = current.parent instanceof Element ? current.parent : null;
     }
     return path.join('-');
   };
@@ -127,7 +128,7 @@ export function LegacyPage({ data, fragments }: { data: LegacyPageData; fragment
     if (classes.split(/\s+/).includes('dropdown-menu') && node.parent instanceof Element) {
       const key = groupKey(node.parent);
       const open = dropdown === key;
-      return <ul {...props} id={`resource-menu-${data.template}-${key}`} data-resource-panel="" hidden={!open} className={`${classes} ${open ? 'legacy-panel-open' : 'legacy-panel-closed'}`} onClick={event => { if (event.target instanceof Element) return; if ((event.target as HTMLElement).closest('a[href]')) setDropdown(null); }} onKeyDown={event => {
+      return <ul {...props} id={`resource-menu-${data.template}-${key}`} data-resource-panel="" hidden={!open} className={`${classes} ${open ? 'legacy-panel-open' : 'legacy-panel-closed'}`} onClick={event => { if (event.target instanceof HTMLElement && event.target.closest('a[href]')) setDropdown(null); }} onKeyDown={event => {
         const links = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('a[href]'));
         const index = links.indexOf(document.activeElement as HTMLElement);
         const next = event.key === 'ArrowDown' ? (index + 1) % links.length : event.key === 'ArrowUp' ? (index - 1 + links.length) % links.length : event.key === 'Home' ? 0 : event.key === 'End' ? links.length - 1 : null;

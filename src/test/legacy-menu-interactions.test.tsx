@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { LegacyPage } from '@/components/legacy-page';
 import type { LegacyPageData } from '@/lib/legacy-pages';
@@ -24,7 +24,7 @@ describe('Class resource menu interaction rules', () => {
     expect(notes).toHaveAttribute('aria-expanded', 'false');
   });
   it('dismisses on focus leaving the menu', () => {
-    const { notes, schemes } = setup(); fireEvent.click(notes); schemes.focus();
+    const { notes } = setup(); fireEvent.click(notes); act(() => screen.getByRole('button', { name: 'Show Chat' }).focus());
     expect(notes).toHaveAttribute('aria-expanded', 'false');
   });
   it('dismisses on Escape and restores focus to the trigger', () => {
@@ -32,7 +32,9 @@ describe('Class resource menu interaction rules', () => {
     expect(notes).toHaveAttribute('aria-expanded', 'false'); expect(notes).toHaveFocus();
   });
   it('dismisses when a resource is selected', () => {
-    const { notes } = setup(); fireEvent.click(notes); fireEvent.click(screen.getByRole('menuitem', { name: 'Reading notes' }));
+    const { notes } = setup(); fireEvent.click(notes);
+    const link = screen.getByRole('menuitem', { name: 'Reading notes' });
+    link.addEventListener('click', event => event.preventDefault()); fireEvent.click(link);
     expect(notes).toHaveAttribute('aria-expanded', 'false');
   });
   it('closes the menu when WhatsApp opens and focuses the message', () => {
