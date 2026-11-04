@@ -1,4 +1,6 @@
 # Fresh Teacher import
+- [x] Remove obsolete workflow conflict and update GitHub Pages runner setup; expose actual static build failures in run summaries and annotations.
+- [ ] Complete GitHub Pages deployment — blocked until the next GitHub run exposes the actual build error; repository-subdirectory asset/navigation compatibility also needs validation before claiming the site is live.
 - [x] Keep only flipping and continuous vertical reading, with catalog-matching flips/sound; verified both modes on desktop and phone.
 - [x] Ensure spinners never delay content or block interaction, and skip them on instant loads; verified timing tests, PDF opening, and desktop/phone browsing.
 - [x] Add matching logo loading indicators for thumbnails and page navigation; verified on desktop and phone.
